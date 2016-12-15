@@ -1,3 +1,11 @@
+/**
+ * @Author: Guan Gui <guiguan>
+ * @Date:   2016-12-13T19:27:09+11:00
+ * @Email:  root@guiguan.net
+ * @Last modified by:   guiguan
+ * @Last modified time: 2016-12-14T16:09:11+11:00
+ */
+
 'use strict';
 
 const path = require('path');
@@ -13,20 +21,30 @@ const bodyParser = require('body-parser');
 const socketio = require('feathers-socketio');
 const middleware = require('./middleware');
 const services = require('./services');
+const swagger = require('feathers-swagger');
 
 const app = feathers();
 
 app.configure(configuration(path.join(__dirname, '..')));
 
-app.use(compress())
+app
+  .use(compress())
   .options('*', cors())
   .use(cors())
-  .use(favicon( path.join(app.get('public'), 'favicon.ico') ))
-  .use('/', serveStatic( app.get('public') ))
+  .use(favicon(path.join(app.get('public'), 'favicon.ico')))
+  .use('/', serveStatic(app.get('public')))
   .use(bodyParser.json())
-  .use(bodyParser.urlencoded({ extended: true }))
+  .use(bodyParser.urlencoded({extended: true}))
   .configure(hooks())
   .configure(rest())
+  .configure(swagger({
+    docsPath: '/docs',
+    uiIndex: path.join(__dirname, '../public/docs.html'),
+    info: {
+      title: 'A test',
+      description: 'A description'
+    }
+  }))
   .configure(socketio())
   .configure(services)
   .configure(middleware);

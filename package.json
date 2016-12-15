@@ -34,6 +34,7 @@
     "feathers-nedb": "^2.6.0",
     "feathers-rest": "^1.5.2",
     "feathers-socketio": "^1.4.2",
+    "feathers-swagger": "^0.3.2",
     "nedb": "^1.8.0",
     "passport": "^0.3.2",
     "serve-favicon": "^2.3.2",
